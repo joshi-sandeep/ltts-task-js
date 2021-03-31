@@ -130,7 +130,7 @@
         //regular expression for the score and wickets
         var tscore1 = $("input[name=teamscore1]").val();
         var tscore2 = $("input[name=teamscore2]").val();
-        if (!tscore1.match(scorevalidater) && !tscore2.match(scorevalidater)) {
+        if (!tscore1.match(scorevalidater) || !tscore2.match(scorevalidater)) {
             // alert("Enter Value hould be in nnn/nn format");
             $('#myAlert4').show('fade');
             setTimeout(function () {
