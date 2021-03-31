@@ -29,22 +29,22 @@
     <div class="text-center"> Win Calculater For Cricket</div>
     <!-- <div class="text-center" id="winner"></div> -->
     <div id="winner" class="alert alert-success collapse">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <strong>Congrats !</strong> 
-        </div>
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Congrats !</strong>
+    </div>
     <div class="container mt-3">
         <!--Row with two equal columns-->
         <div class="row">
             <div class="col-md-6 col-sm-6">
                 <div class="demo-content">
                     <span>Team 1</span>
-                    <input class="team1" type="text" name="teamsname1" />
+                    <input class="team1" id="tm1" type="text" name="teamsname1" />
                 </div>
             </div>
             <div class="col-md-6 col-sm-6">
                 <div class="demo-content bg-alt">
                     <span>Score 1</span>
-                    <input class="score1" type="text" name="teamscore1" />
+                    <input class="score1" id="sc1" type="text" name="teamscore1" />
                 </div>
             </div>
         </div>
@@ -53,13 +53,13 @@
             <div class="col-md-6 col-sm-6">
                 <div class="demo-content">
                     <span>Team 2</span>
-                    <input class="team2" type="text" name="teamsname2" />
+                    <input class="team2" id="tm2" type="text" name="teamsname2" />
                 </div>
             </div>
             <div class="col-md-6 col-sm-6">
                 <div class="demo-content bg-alt">
                     <span>Score 2</span>
-                    <input class="score2" type="text" name="teamscore2" />
+                    <input class="score2" id="sc2" type="text" name="teamscore2" />
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
         </div>
         <div id="wicketalrt" class="alert alert-danger collapse">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
-            <strong>Error!</strong> invalid  Wickets entered
+            <strong>Error!</strong> invalid Wickets entered
         </div>
     </div>
 </body>
@@ -131,17 +131,16 @@
         var tscore1 = $("input[name=teamscore1]").val();
         var tscore2 = $("input[name=teamscore2]").val();
         if (!tscore1.match(scorevalidater) && !tscore2.match(scorevalidater)) {
-           // alert("Enter Value hould be in nnn/nn format");
-           $('#myAlert4').show('fade');
+            // alert("Enter Value hould be in nnn/nn format");
+            $('#myAlert4').show('fade');
             setTimeout(function () {
                 $('#myAlert4').hide('fade');
             }, 2000);
             return false;
         }
-         
-        if(parseInt(tscore1.slice(4, 6)) > 10 || parseInt(tscore2.slice(4, 6)) > 10 ){
-            // alert("invalid  Wickets entered")
-            // return false;
+
+        if (parseInt(tscore1.slice(4, 6)) > 10 || parseInt(tscore2.slice(4, 6)) > 10) {
+
             $('#wicketalrt').show('fade');
             setTimeout(function () {
                 $('#wicketalrt').hide('fade');
@@ -156,18 +155,41 @@
             }
         }
 
+        function getScore() {
+            if (parseInt(tscore1.slice(0, 3)) > parseInt(tscore2.slice(0, 3))) {
+                let c = parseInt(tscore1.slice(0, 3)) - parseInt(tscore2.slice(0, 3)); 
+                return `${tname1}   Won By  ${c} runs`               
+            }
+        }
+
+        function getWicket(){
+            if (parseInt(tscore2.slice(4, 6)) > parseInt(tscore1.slice(4, 6))) {
+                let w = parseInt(tscore2.slice(4, 6)) - parseInt(tscore1.slice(4, 6));                
+                return `${tname2}   Won By  ${w} Wickets`               
+            }
+        }
+
         // print the winner on the top
         if (parseInt(tscore1.slice(0, 3)) > parseInt(tscore2.slice(0, 3))) {
-            var div = document.getElementById('winner');
-            div.innerHTML += 'team 1 is winner';
+            var div = document.getElementById('winner');           
+
+            div.innerHTML += getScore();
+
             $('#winner').show('fade');
-            
+            setTimeout(function () {
+                $('#winner').hide('fade');
+            }, 2000);
+            return false;
 
         } else {
             var div = document.getElementById('winner');
-            div.innerHTML += 'team 2 is winner';
+            div.innerHTML += getWicket();
+
             $('#winner').show('fade');
-           
+            setTimeout(function () {
+                $('#winner').hide('fade');
+            }, 2000);
+            return false;
         }
 
 
