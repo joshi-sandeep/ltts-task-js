@@ -84,6 +84,10 @@
             <a href="#" class="close" data-dismiss="alert">&times;</a>
             <strong>Error!</strong> Enter Value should be in NNN/NN format
         </div>
+        <div id="wicketalrt" class="alert alert-danger collapse">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Error!</strong> invalid  Wickets entered
+        </div>
     </div>
 </body>
 
@@ -126,7 +130,7 @@
         //regular expression for the score and wickets
         var tscore1 = $("input[name=teamscore1]").val();
         var tscore2 = $("input[name=teamscore2]").val();
-        if (!tscore1.match(scorevalidater) || !tscore2.match(scorevalidater)) {
+        if (!tscore1.match(scorevalidater) && !tscore2.match(scorevalidater)) {
            // alert("Enter Value hould be in nnn/nn format");
            $('#myAlert4').show('fade');
             setTimeout(function () {
@@ -135,8 +139,13 @@
             return false;
         }
          
-        if(parseInt(tscore1.slice(4, 6)) > 10 ||parseInt(tscore2.slice(4, 6)) > 10 ){
-            alert("invalid  Wickets entered")
+        if(parseInt(tscore1.slice(4, 6)) > 10 || parseInt(tscore2.slice(4, 6)) > 10 ){
+            // alert("invalid  Wickets entered")
+            // return false;
+            $('#wicketalrt').show('fade');
+            setTimeout(function () {
+                $('#wicketalrt').hide('fade');
+            }, 2000);
             return false;
         }
         // checking the score not exceded the limit
@@ -152,11 +161,13 @@
             var div = document.getElementById('winner');
             div.innerHTML += 'team 1 is winner';
             $('#winner').show('fade');
+            
 
         } else {
             var div = document.getElementById('winner');
             div.innerHTML += 'team 2 is winner';
             $('#winner').show('fade');
+           
         }
 
 
