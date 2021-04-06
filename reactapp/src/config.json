@@ -1,5 +1,6 @@
 {
     "apiEndpoint": "https://jsonplaceholder.typicode.com/posts",
-    "apiEndpoint1" : "https://reqres.in/api/unknown"
+    "apiEndpoint1" : "https://reqres.in/api/unknown",
+    "apiEndpoint2" : "https://reqres.in/api"
 
 }

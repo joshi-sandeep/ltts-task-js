@@ -13,15 +13,16 @@ class App extends Component {
   
 
    async componentDidMount() { 
-     const {data: posts}   = await axios.get(config.apiEndpoint); 
+     
+    const {data : posts}   = await axios.get(config.apiEndpoint1); 
      var self = this;
  
-    self.setState({ posts });
+    self.setState({ posts : posts.data});
   }
 
   handleAdd = async () => {
-    const obj = { title: "a", body: "b" };
-     const { data: post } = await axios.post(config.apiEndpoint, obj);
+    const obj = { name: "a", body: "b" };
+     const { data: post } = await axios.post(config.apiEndpoint1, obj);
     //const { data: post } = await http.post(config.apiEndpoint, obj);
 
     const posts = [post, ...this.state.posts];
@@ -30,7 +31,7 @@ class App extends Component {
 
   handleUpdate = async post => {
     const originalPost = { ...post };
-    post.title = "UPDATED";
+    post.name = "UPDATED";
 
     const posts = [...this.state.posts];
     const index = posts.indexOf(post);
@@ -38,7 +39,7 @@ class App extends Component {
     this.setState({ posts });
 
     try {
-       await axios.put(config.apiEndpoint + "/" + post.id, post); 
+       await axios.put(config.apiEndpoint2 + "/" + post.id, post); 
     } catch (ex) {
       console.log('Reverting failed update for post:' + post.id);
       posts[index] = { ...originalPost };
@@ -53,7 +54,7 @@ class App extends Component {
     this.setState({ posts });
 
     try {
-       await axios.delete(config.apiEndpoint + "/" + post.id); 
+       await axios.delete(config.apiEndpoint2 + "/" + post.id); 
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         alert("This post has already been deleted.");
@@ -62,9 +63,9 @@ class App extends Component {
   };
 
   render() {
-    console.log(config.apiEndpoint);
+    console.log(config.apiEndpoint1);
     console.log(this.state.posts.data);
-    var arr =[ {id: 1, name: "cerulean", year: 2000, color: "#98B2D1", pantone_value: "15-4020"},{id: 2, name: "fuchsia rose", year: 2001, color: "#C74375", pantone_value: "17-2031"}, {id: 3, name: "true red", year: 2002, color: "#BF1932", pantone_value: "19-1664"}]
+  //  var arr =[ {id: 1, name: "cerulean", year: 2000, color: "#98B2D1", pantone_value: "15-4020"},{id: 2, name: "fuchsia rose", year: 2001, color: "#C74375", pantone_value: "17-2031"}, {id: 3, name: "true red", year: 2002, color: "#BF1932", pantone_value: "19-1664"}]
     return (
       <React.Fragment>
         <ToastContainer />
@@ -83,23 +84,23 @@ class App extends Component {
           
             { this.state.posts.map(post => (
               <tr key={post.id}>
-                <td>{post.title}</td>
+                <td>{post.name}</td>
                 <td>
-                  <button
-                    className="btn btn-info btn-sm"
-                    onClick={() => this.handleUpdate(post)}
-                  >
-                    Update
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => this.handleDelete(post)}
-                  >
-                    Delete
-                  </button>
-                </td>
+                <button
+                  className="btn btn-info btn-sm"
+                  onClick={() => this.handleUpdate(post)}
+                >
+                  Update
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => this.handleDelete(post)}
+                >
+                  Delete
+                </button>
+              </td>
               </tr>
             ))}
           </tbody>
